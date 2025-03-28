@@ -16,7 +16,7 @@ class FaceidRecognition(ABC):
         self.yolo_model = YOLO("yolov11n-face.pt")
         self.correct_predictions = []    # Add a list for correct predictions
         self.incorrect_predictions = []
-        self.im_dirs = "./filtered_images"
+        self.im_dirs = "./ims_68"
 
     def face_dection(self, image_path, output_path):
         im = cv2.imread(image_path)
@@ -73,7 +73,8 @@ class CompareFace(FaceidRecognition):
         super().__init__()
         self.domain = "http://localhost"
         self.port = "8000"
-        self.api_key = "f74dc9a6-a66f-4b87-9d6e-7cfad3c61bab"
+        self.api_key = "c338e85b-59bf-4267-8461-515c07883fbc"
+        self.api_key = "0781cd99-a764-4dbf-a14e-c9b1683a442d"      #mobileNet
         self.compre_face = CompreFace(self.domain, self.port)
         self.recognition = self.compre_face.init_face_recognition(self.api_key)
         self.collection = self.recognition.get_face_collection()
@@ -97,7 +98,7 @@ class CompareFace(FaceidRecognition):
                     im_path = os.path.join(celeb_folder, im_name)
                     add_db.add_db(im_path, celeb_name)
 
-        for index in range(5):
+        for index in range(1):
             db_dir = f"{self.im_dirs}_ver_{index}/db"
             test_dir = f"{self.im_dirs}_ver_{index}/test"
             bulk_add_db(db_dir)
@@ -107,7 +108,7 @@ class CompareFace(FaceidRecognition):
                 im_path = os.path.join(test_dir, im_name)
                 try:
                     resized_im_path = self.face_dection(im_path, "resize.jpg")
-                    res = self.recognition.recognize(image_path=resized_im_path)
+                    res = self.recognition.recognize(image_path=resized_im_path, options={"face_plugins": "gender, landmarks2d106 "})
                     print("Res", res)
                 except requests.exceptions.JSONDecodeError as e:
                     print("Error recognizing face", e)
@@ -117,7 +118,7 @@ class CompareFace(FaceidRecognition):
                     continue
 
                 prediction = res["result"][0]["subjects"][0]["subject"]
-                self.commit_results(prediction, person_name, im_name, res["result"][0]["subjects"][0])
+                self.commit_results(prediction, person_name, im_name, f"{res["result"][0]["subjects"][0]}_{res["result"][0]["gender"]["value"]}")
 
             self.save_results(index)
             print(f"Time taken compare_face {index}: ", time.time() - start)
@@ -135,34 +136,42 @@ class DeepFaceRecognition(FaceidRecognition):
             json.dump(self.incorrect_predictions, f, indent=4)
     
     def faceid_recognition(self):
-        for index in range(5):
+        for index in range(1):
 
             db_compare = f"{self.im_dirs}_ver_{index}/db"
             db_deepface = f"{self.im_dirs}_ver_{index}/deepface_db"
             test_dir = f"{self.im_dirs}_ver_{index}/test"
             os.makedirs(db_deepface, exist_ok=True)
 
-            for attendant_name in os.listdir(db_compare):
-                attendant_path = os.path.join(db_compare, attendant_name)
-                for im_name in os.listdir(attendant_path):
-                    im_path = os.path.join(attendant_path, im_name)
-                    cv2.imwrite(os.path.join(db_deepface, attendant_name + "!" + im_name), cv2.imread(im_path))
+            # for attendant_name in os.listdir(db_compare):
+            #     attendant_path = os.path.join(db_compare, attendant_name)
+            #     for im_name in os.listdir(attendant_path):
+            #         im_path = os.path.join(attendant_path, im_name)
+            #         cv2.imwrite(os.path.join(db_deepface, attendant_name + "!" + im_name), cv2.imread(im_path))
 
-            models = ["ArcFace", "GhostFaceNet", "Facenet512"]
+            models = ["Facenet512"]
             
-            start = time.time()
             for model in models:
-                for im_name in os.listdir(test_dir):
+                for i, im_name in enumerate(os.listdir(test_dir)):
+                    if i == 1:
+                        start = time.time()
+
                     person_name = "_".join(im_name.split("_")[:-1])
                     im_path = os.path.join(test_dir, im_name)
-                    
+                    im_path = self.face_dection(im_path, "resize.jpg")
+                    objs = DeepFace.analyze(
+                        img_path = im_path,
+                        actions = ["gender"],
+                        detector_backend = "yolov8",
+                        enforce_detection = True
+                    )
                     results = DeepFace.find(img_path=im_path, db_path=db_deepface,
                                             model_name=model, detector_backend="yolov8")
                     results = results[0]
                     
                     if len(results) == 0:
                         prediction = "Unknown"
-                        res = 0
+                        res = "objs[0]['dominant_gender']"
                     else:
                         results = results.sort_values(by="distance")
                         top_results = results.head(min(3, len(results)))
@@ -187,13 +196,15 @@ class DeepFaceRecognition(FaceidRecognition):
                         else:
                             prediction = person_names[0]
                     
-                        res = [f"{person}_{distance}" for person, distance in zip(person_names, distances)]
+                        res = [f"{person}_{distance}_objs[0]['dominant_gender']" for person, distance in zip(person_names, distances)]
+                    
+  
                     self.commit_results(prediction, person_name, im_name, res)
                 self.save_results(index, model)
             print(f"Time taken deepface {index}: ", time.time() - start)
 
 if __name__ == '__main__':
-    # compare_face = CompareFace()
-    # compare_face.faceid_recognition()
-    deepface_recognition = DeepFaceRecognition()
-    deepface_recognition.faceid_recognition()
+    compare_face = CompareFace()
+    compare_face.faceid_recognition()
+    # deepface_recognition = DeepFaceRecognition()
+    # deepface_recognition.faceid_recognition()

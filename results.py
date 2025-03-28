@@ -8,14 +8,14 @@ def compute_results(json_file):
 
 def check_results():
     im_names_result = []
-    im_names = os.listdir("./filtered_images_ver_0/test")
+    im_names = os.listdir("./ims_68_ver_0/test")
     print("im_names", im_names)
-    json_file = "./filtered_images_ver_0/result/deepface_ArcFace_correct.json"
+    json_file = "./ims_68_ver_0/result/deepface_ArcFace_correct.json"
     with open(json_file, "r") as f:
         data = json.load(f)
     im_names_result += [x["image"] for x in data]
 
-    json_file = "./filtered_images_ver_0/result/deepface_ArcFace_incorrect.json"
+    json_file = "./ims_68_ver_0/result/deepface_ArcFace_incorrect.json"
     with open(json_file, "r") as f:
         data = json.load(f)
     im_names_result += [x["image"] for x in data]
@@ -26,7 +26,7 @@ def check_results():
             print(im_name_result)
 
 if __name__ == "__main__":
-    results_dir = [f"filtered_images_ver_{i}/result" for i in range(5)]
+    results_dir = [f"ims_68_ver_{i}/result" for i in range(5)]
     for result_dir in results_dir:
         print('result_dir', result_dir)
         for json_name in os.listdir(result_dir):
@@ -36,5 +36,5 @@ if __name__ == "__main__":
             n_ims = compute_results(json_file)
             print(f"Json files: {result_dir}_{json_name}, n_ims, {n_ims}")
     
-    print("Done!", len(os.listdir("./filtered_images_ver_4/test")))
+    print("Done!", len(os.listdir("./ims_68_ver_4/test")))
     # check_results()
