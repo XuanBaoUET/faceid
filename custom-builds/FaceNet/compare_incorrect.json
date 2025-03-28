@@ -1,0 +1,74 @@
+[
+    {
+        "image": "Soobin_Hoang_Son_0.png",
+        "expected": "Soobin_Hoang_Son",
+        "prediction": "Quang_Hung_MasterD",
+        "details": "{'subject': 'Quang_Hung_MasterD', 'similarity': 0.97673}_female"
+    },
+    {
+        "image": "Tlinh_0.png",
+        "expected": "Tlinh",
+        "prediction": "Nguyen_Thi_Thu_Thao",
+        "details": "{'subject': 'Nguyen_Thi_Thu_Thao', 'similarity': 0.99437}_female"
+    },
+    {
+        "image": "Nha_Phuong_0.png",
+        "expected": "Nha_Phuong",
+        "prediction": "Linh_Ka",
+        "details": "{'subject': 'Linh_Ka', 'similarity': 0.98241}_female"
+    },
+    {
+        "image": "tiep_vien_nu.png",
+        "expected": "tiep_vien",
+        "prediction": "Vu_Thuy_Trang",
+        "details": "{'subject': 'Vu_Thuy_Trang', 'similarity': 0.99842}_female"
+    },
+    {
+        "image": "DoNgocAnh_0.png",
+        "expected": "DoNgocAnh",
+        "prediction": "Khanh_My",
+        "details": "{'subject': 'Khanh_My', 'similarity': 0.97156}_female"
+    },
+    {
+        "image": "NguyenThiVan_0.png",
+        "expected": "NguyenThiVan",
+        "prediction": "Hoang_Thuy",
+        "details": "{'subject': 'Hoang_Thuy', 'similarity': 0.99425}_female"
+    },
+    {
+        "image": "Quang_Hung_MasterD_0.png",
+        "expected": "Quang_Hung_MasterD",
+        "prediction": "Noo_Phuoc_Thinh",
+        "details": "{'subject': 'Noo_Phuoc_Thinh', 'similarity': 0.99033}_female"
+    },
+    {
+        "image": "Amee_0.png",
+        "expected": "Amee",
+        "prediction": "DoNgocAnh",
+        "details": "{'subject': 'DoNgocAnh', 'similarity': 0.99558}_female"
+    },
+    {
+        "image": "Suni_Ha_Linh_0.png",
+        "expected": "Suni_Ha_Linh",
+        "prediction": "Kaity",
+        "details": "{'subject': 'Kaity', 'similarity': 0.97778}_female"
+    },
+    {
+        "image": "Nguyen_Thi_Lan_0.png",
+        "expected": "Nguyen_Thi_Lan",
+        "prediction": "NguyenThiThanhThuy",
+        "details": "{'subject': 'NguyenThiThanhThuy', 'similarity': 0.98575}_female"
+    },
+    {
+        "image": "Kay_Tran_0.png",
+        "expected": "Kay_Tran",
+        "prediction": "Vu_Tien_Huy",
+        "details": "{'subject': 'Vu_Tien_Huy', 'similarity': 0.99732}_male"
+    },
+    {
+        "image": "thay_Hoang.png",
+        "expected": "thay",
+        "prediction": "Thay_Hoang",
+        "details": "{'subject': 'Thay_Hoang', 'similarity': 0.97674}_male"
+    }
+]

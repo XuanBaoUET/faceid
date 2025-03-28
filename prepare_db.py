@@ -87,8 +87,7 @@ class PrepareDb:
                         print(f"Cannot read image: {im_path}")
                         continue
                         
-                    # face_img = self.face_detection(img)
-                    face_img = img
+                    face_img = self.face_detection(img)
                     if face_img is not None:
                         # Sử dụng tên file gốc hoặc tạo tên mới với index
                         original_filename = os.path.basename(im_path)
@@ -115,4 +114,4 @@ class PrepareDb:
                         
 if __name__ == "__main__":
     prepare_db = PrepareDb(is_get_data=True)
-    # prepare_db.split_db_test()
+    prepare_db.split_db_test()

@@ -1,0 +1,20 @@
+[
+    {
+        "image": "tiep_vien_nu.png",
+        "expected": "tiep_vien",
+        "prediction": "Vu_Thuy_Trang",
+        "details": "{'subject': 'Vu_Thuy_Trang', 'similarity': 0.9988}_female"
+    },
+    {
+        "image": "Jun_Vu_0.png",
+        "expected": "Jun_Vu",
+        "prediction": "HaKieuAnh",
+        "details": "{'subject': 'HaKieuAnh', 'similarity': 0.97553}_female"
+    },
+    {
+        "image": "thay_Hoang.png",
+        "expected": "thay",
+        "prediction": "Thay_Hoang",
+        "details": "{'subject': 'Thay_Hoang', 'similarity': 0.94757}_male"
+    }
+]
