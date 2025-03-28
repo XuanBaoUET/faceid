@@ -1,12 +1,9 @@
 ultralytics
 opencv-python
-mediapipe
 numpy
 matplotlib
 compreface-sdk
-retina-face      # for retina-face
 tf-keras         # for retina-face
-mtcnn
-deepface
 gdown
 python-dotenv
+icrawler
